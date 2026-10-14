@@ -23,3 +23,9 @@ Note
 ----
 node_modules/ and .next/ are intentionally excluded — run npm install to
 recreate them. The .env file stores only a local development database URL.
+
+Deployment
+----------
+The app can be built without DATABASE_URL. Configure DATABASE_URL as a
+runtime environment variable in Vercel to enable database-backed features.
+It must contain the connection URL for the PostgreSQL database.
