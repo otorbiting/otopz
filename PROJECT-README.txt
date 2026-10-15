@@ -24,7 +24,8 @@ the database is configured; there is no separate seed script.
 Note
 ----
 node_modules/ and .next/ are intentionally excluded — run npm install to
-recreate them. The .env file stores only a local development database URL.
+recreate them. Local .env files are excluded (except the shareable .env.example
+template); configure DATABASE_URL in the runtime environment instead.
 
 Deployment
 ----------

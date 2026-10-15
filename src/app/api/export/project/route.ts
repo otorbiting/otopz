@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "node:fs/promises";
 import path from "node:path";
 import JSZip from "jszip";
+import { shouldSkipProjectArchiveFile } from "@/lib/project-archive-files.js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,8 +22,6 @@ const SKIP_DIRS = new Set([
   ".DS_Store",
 ]);
 
-const SKIP_FILES = new Set([".DS_Store", "Thumbs.db"]);
-
 async function walk(dir: string, root: string, zip: JSZip, stats: { files: number }) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
@@ -35,8 +34,7 @@ async function walk(dir: string, root: string, zip: JSZip, stats: { files: numbe
       continue;
     }
     if (!entry.isFile()) continue;
-    if (SKIP_FILES.has(entry.name)) continue;
-    if (entry.name.endsWith(".log")) continue;
+    if (shouldSkipProjectArchiveFile(entry.name)) continue;
 
     try {
       const buf = await fs.readFile(abs);
@@ -84,7 +82,8 @@ the database is configured; there is no separate seed script.
 Note
 ----
 node_modules/ and .next/ are intentionally excluded — run npm install to
-recreate them. The .env file stores only a local development database URL.
+recreate them. Local .env files are excluded (except the shareable .env.example
+template); configure DATABASE_URL in the runtime environment instead.
 `
     );
 
