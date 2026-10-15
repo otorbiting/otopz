@@ -16,13 +16,16 @@ Running it locally
 2. Create a .env file with:
        DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/app_db
 3. Build the database:    npx drizzle-kit push
-4. Seed the demo data:    node scripts/seed.mjs
-5. Start the app:         npm run dev
+4. Start the app:         npm run dev
+
+The demo data is seeded automatically on the first app or API request after
+the database is configured; there is no separate seed script.
 
 Note
 ----
 node_modules/ and .next/ are intentionally excluded — run npm install to
-recreate them. The .env file stores only a local development database URL.
+recreate them. Local .env files are excluded (except the shareable .env.example
+template); configure DATABASE_URL in the runtime environment instead.
 
 Deployment
 ----------
